@@ -37,7 +37,12 @@
             <div class="list card">
 
               <div class="item item-avatar">
-                <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRZzj4XHXulwu0lfkSQSSQ4v1ZhW1FJcq0TGeNbRbRaynSvSHjzFuahVw">
+                <img ng-if="item.session == 'breakfast'" src="https://cdn2.iconfinder.com/data/icons/hotel-facilities-1/500/breakfast2-256.png">
+                <img ng-if="item.session == 'morning'" src="https://cdn3.iconfinder.com/data/icons/weather-25/512/Sunrise-512x512.png">
+		<img ng-if="item.session == 'lunch'" src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRZzj4XHXulwu0lfkSQSSQ4v1ZhW1FJcq0TGeNbRbRaynSvSHjzFuahVw">
+                <img ng-if="item.session == 'afternoon'" src="https://cdn2.iconfinder.com/data/icons/lil-weather/142/sunset-512.png">
+                <img ng-if="item.session == 'dinner'" src="http://www.pozible.com/uploads/06-2014/1402039177.jpg">
+
                 <h2>{{item.name}}</h2>
 	        <p>{{item.session}}</p>
 	      </div>
@@ -69,17 +74,17 @@
 	    </div>
 	  </ion-item>
 	</ion-list>
-	<!--<ion-infinite-scroll on-infinite="loadMore()" distance="5%"></ion-infinite-scroll> -->
+        <!--<ion-infinite-scroll on-infinite="loadMore()" distance="5%"></ion-infinite-scroll>--> 
     
       </ion-content>
 
-      <div class="float-button">
+      <!--<div class="float-button">
         <span class="height-fix">
           <a ui-sref="add-trip" class="content">
             <i class="ion-plus-round"> </i>
           </a>
         </span>
-      </div>
+      </div> -->
 
     </ion-side-menu-content>
 

@@ -139,6 +139,17 @@ angular.module('tropicalDiary.controllers', ['ionic', 'tropicalDiary.controllers
     //});
   };
 
+
+  $scope.doRefresh = function(){
+    console.log('Refresh');
+    PersonService.GetFeed().then(function(items){
+      $scope.items = items;
+    })
+    .finally(function(){
+      $scope.$broadcast('scroll.refreshComplete')
+    });
+  };
+
   var CheckNewItems = function(){
    // $timeout(function(){
    //   PersonService.GetNewUsers().then(function(items){
