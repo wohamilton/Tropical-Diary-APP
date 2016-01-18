@@ -1,0 +1,91 @@
+<ion-view>
+  <ion-side-menus>
+
+    <ion-side-menu side="left">
+      <ion-list>
+        <ion-item>
+	  <a menu-close href='#/newsFeed'>News Feed</a>
+	</ion-item>
+	<ion-item>Settings</ion-item>
+        <ion-item>
+	  <a menu-close href='/#/login'>Log Out</a>
+	</ion-item>
+      </ion-list>
+
+
+    </ion-side-menu>
+
+    <ion-side-menu-content>
+
+      <ion-header-bar class="bar-positive">
+        <div class="buttons">
+          <button class="button icon button-clear ion-navicon-round" ng-click="toggleLeft()"></button>
+        </div>
+      </ion-header-bar>
+
+      <ion-content>
+        <ion-refresher on-refresh="doRefresh()"></ion-refresher>
+        <ion-list>
+      
+          <!--
+          <ion-item ng-if="newItems.length > 0" ng-click="doRefresh()">
+            {{newItems.length}} new items
+          </ion-item>
+          -->
+
+          <ion-item ng-repeat="item in items">
+            <div class="list card">
+
+              <div class="item item-avatar">
+                <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRZzj4XHXulwu0lfkSQSSQ4v1ZhW1FJcq0TGeNbRbRaynSvSHjzFuahVw">
+                <h2>{{item.name}}</h2>
+	        <p>{{item.session}}</p>
+	      </div>
+
+	      <div class="item item-body">
+		<img class="full-image" src={{item.image_url}}>
+		<p>{{item.description}}</p>
+		<p>
+		  <a href="#" class="subdued">1 Like</a>
+		  <a href="#" class="subdued">5 Comments</a>
+		</p>
+	      </div>
+
+	      <div class="item tabs tabs-secondary tabs-icon-left">
+		<a class="tab-item" href="#">
+		  <i class="icon ion-thumbsup"></i>
+		  Like
+		</a>
+		
+		<a class="tab-item" href="#">
+		  <i class="icon ion-chatbox"></i>
+		  Comment
+		</a>
+		<a class="tab-item" href="#">
+		  <i class="icon ion-share"></i>
+		  Share
+		</a>
+	      </div>
+	    </div>
+	  </ion-item>
+	</ion-list>
+	<!--<ion-infinite-scroll on-infinite="loadMore()" distance="5%"></ion-infinite-scroll> -->
+    
+      </ion-content>
+
+      <div class="float-button">
+        <span class="height-fix">
+          <a ui-sref="add-trip" class="content">
+            <i class="ion-plus-round"> </i>
+          </a>
+        </span>
+      </div>
+
+    </ion-side-menu-content>
+
+ 
+   
+  </ion-side-menus>
+
+</ion-view>
+

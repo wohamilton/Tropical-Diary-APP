@@ -1,0 +1,58 @@
+<ion-view>
+  <ion-header-bar class="bar bar-header bar-royal">
+    <h1 class="title pull-right">Capture</h1>
+  </ion-header-bar>
+      <ion-content scroll="false">
+
+        <div class="list card">
+
+          <label class="item item-input item-select">
+            <div class="input-label">
+              Name of the child
+            </div>
+
+              <select ng-options="item.name for item in infants" ng-model="currentEntry.infant" >
+               <option value="">Select Child</option>
+             </select>
+          </label>
+
+          <label class="item item-input item-select">
+            <div class="input-label">
+              Time of the day
+            </div>
+            <select>
+              <option selected>Morning</option>
+              <option>Lunch</option>
+              <option>Afternoon</option>
+              <option>Tea</option>
+            </select>
+          </label>
+        </div>
+
+
+  <div class="list card">
+
+<div class="item" style="height: 48vh">
+    <textarea ></textarea>
+</div>
+
+
+  <div class="item tabs tabs-secondary tabs-icon-left">
+    <a class="tab-item" href="#">
+      <i class="icon ion-camera"></i>
+    </a>
+    <a class="tab-item" href="#">
+      <i class="icon ion-document"></i>
+    </a>
+  </div>
+
+</div>
+
+<div class="button-bar" style="position: fixed; bottom: 0em;">
+  <a class="button button-large button-royal" ng-click="mainMenu()">Cancel</a>
+  <a class="button button-large button-assertive" ng-click="saveEntry()">Save</a>
+</div>
+
+  </ion-content>
+
+</ion-view>
