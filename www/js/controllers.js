@@ -9,8 +9,9 @@ angular.module('tropicalDiary.controllers', ['ionic', 'tropicalDiary.controllers
     GetFeed: function(){
 
       console.log("In Get Feed");
+      console.log("token: " + $rootScope.token);
 
-      return $http.get('https://tropical-kids-api.mybluemix.net/api/Activities?access_token='+$rootScope.token).then(function(response){
+      return $http.get('https://tropical-diary-api.mybluemix.net/api/Activities?access_token='+$rootScope.token).then(function(response){
         console.log(JSON.stringify(response));
         items = response.data;
 	return items;
@@ -41,7 +42,7 @@ angular.module('tropicalDiary.controllers', ['ionic', 'tropicalDiary.controllers
 
       console.log('username: ' + name + ', pass: ' + pw);
 
-      $http.post('http://tropical-kids-api.mybluemix.net/api/TropicalUsers/login','{"email":"'+name+'", "password":"'+pw+'"}').then(function(resp) {
+      $http.post('http://tropical-diary-api.mybluemix.net/api/TropicalUsers/login','{"email":"'+name+'", "password":"'+pw+'"}').then(function(resp) {
 
         //console.log('Success', JSON.stringify(resp));
         deferred.resolve(resp);
@@ -73,6 +74,8 @@ angular.module('tropicalDiary.controllers', ['ionic', 'tropicalDiary.controllers
     LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
       //console.log('heres the data ' + data.data);
       $rootScope.token = data.data.id;
+      
+      
       $state.go('newsFeed');
     }).error(function(data) {
       var alertPopup = $ionicPopup.alert({
@@ -89,7 +92,7 @@ angular.module('tropicalDiary.controllers', ['ionic', 'tropicalDiary.controllers
 
    $scope.currentEntry = {};
 
-   $http.get('https://tropical-kids-api.mybluemix.net/api/Infants').then(function(resp) {
+   $http.get('https://tropical-diary-api.mybluemix.net/api/Infants').then(function(resp) {
      console.log('Success', resp);
      // For JSON responses, resp.data contains the result
      $scope.infants = resp.data;
