@@ -3,7 +3,7 @@ angular.module('tropicalDiary.controllers', ['ionic', 'tropicalDiary.controllers
 
 .factory('PersonService', function($http, $rootScope){
   var items = [];
-		
+
   return {
 
     GetFeed: function(){
@@ -41,7 +41,7 @@ angular.module('tropicalDiary.controllers', ['ionic', 'tropicalDiary.controllers
 
       console.log('username: ' + name + ', pass: ' + pw);
 
-      $http.post('http://tropical-kids-api.mybluemix.net/api/TropicalUsers/login','{"email":"'+name+'", "password":"'+pw+'"}').then(function(resp) {
+      $http.post('https://tropical-kids-api.mybluemix.net/api/TropicalUsers/login','{"email":"'+name+'", "password":"'+pw+'"}').then(function(resp) {
 
         //console.log('Success', JSON.stringify(resp));
         deferred.resolve(resp);
@@ -68,7 +68,7 @@ angular.module('tropicalDiary.controllers', ['ionic', 'tropicalDiary.controllers
 .controller('LoginCtrl', function($scope, $rootScope, LoginService, $ionicPopup, $state) {
   console.log("in login");
   $scope.data = {};
-    
+
   $scope.login = function() {
     LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
       //console.log('heres the data ' + data.data);
@@ -162,6 +162,4 @@ angular.module('tropicalDiary.controllers', ['ionic', 'tropicalDiary.controllers
 //CheckNewItems();
 
 
-})  
-
-
+})
