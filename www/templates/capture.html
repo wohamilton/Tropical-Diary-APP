@@ -1,5 +1,5 @@
 <ion-view>
-  <ion-header-bar class="bar bar-header bar-royal">
+  <ion-header-bar class="bar bar-header bar-positive">
     <h1 class="title pull-right">Capture</h1>
   </ion-header-bar>
       <ion-content scroll="false">
@@ -11,29 +11,37 @@
               Name of the child
             </div>
 
-              <select ng-options="item.name for item in infants" ng-model="currentEntry.infant" >
-               <option value="">Select Child</option>
+              <select ng-options="item.name for item in diaries" ng-model="currentEntry.diary" >
+               <option value="">Select Diary</option>
              </select>
           </label>
 
           <label class="item item-input item-select">
             <div class="input-label">
-              Time of the day
+              Session
             </div>
-            <select>
-              <option selected>Morning</option>
-              <option>Lunch</option>
-              <option>Afternoon</option>
-              <option>Tea</option>
+            <select ng-model="currentEntry.session" >
+              <option selected>breakfast</option>
+              <option>morning</option>
+              <option>lunch</option>
+              <option>afternoon</option>
+              <option>dinner</option>
             </select>
           </label>
         </div>
 
+        <div class="list card">
+
+      <div class="item" style="height: 10vh">
+          <textarea ng-model="currentEntry.activityName" ></textarea>
+      </div>
+
+      </div>
 
   <div class="list card">
 
 <div class="item" style="height: 48vh">
-    <textarea ></textarea>
+    <textarea ng-model="currentEntry.description" ></textarea>
 </div>
 
 
@@ -49,8 +57,8 @@
 </div>
 
 <div class="button-bar" style="position: fixed; bottom: 0em;">
-  <a class="button button-large button-royal" ng-click="mainMenu()">Cancel</a>
-  <a class="button button-large button-assertive" ng-click="saveEntry()">Save</a>
+  <a class="button button-large button-positive" ng-click="mainMenu()">Cancel</a>
+  <a class="button button-large button-positive" ng-click="saveEntry()">Submit</a>
 </div>
 
   </ion-content>

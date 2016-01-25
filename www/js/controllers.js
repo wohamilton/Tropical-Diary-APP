@@ -10,7 +10,7 @@ angular.module('tropicalDiary.controllers', ['ionic', 'tropicalDiary.controllers
 
       console.log("In Get Feed");
 
-      return $http.get('https://tropical-kids-api.mybluemix.net/api/Activities?access_token='+$rootScope.token).then(function(response){
+      return $http.get('http://tropical-diary-api.mybluemix.net/api/Activities?access_token='+$rootScope.token).then(function(response){
         console.log(JSON.stringify(response));
         items = response.data;
 	return items;
@@ -41,7 +41,7 @@ angular.module('tropicalDiary.controllers', ['ionic', 'tropicalDiary.controllers
 
       console.log('username: ' + name + ', pass: ' + pw);
 
-      $http.post('https://tropical-kids-api.mybluemix.net/api/TropicalUsers/login','{"email":"'+name+'", "password":"'+pw+'"}').then(function(resp) {
+      $http.post('http://tropical-diary-api.mybluemix.net/api/TropicalUsers/login','{"email":"'+name+'", "password":"'+pw+'"}').then(function(resp) {
 
         //console.log('Success', JSON.stringify(resp));
         deferred.resolve(resp);
@@ -84,20 +84,20 @@ angular.module('tropicalDiary.controllers', ['ionic', 'tropicalDiary.controllers
 })
 
 
-.controller('CaptureCtrl', function($scope, $ionicModal, $location, $timeout, $state, $http) {
+.controller('CaptureCtrl', function($scope, $rootScope, $ionicModal, $location, $timeout, $state, $http) {
   console.log("In Capture Ctrl");
 
    $scope.currentEntry = {};
 
-   $http.get('https://tropical-kids-api.mybluemix.net/api/Infants').then(function(resp) {
+   $http.get('http://tropical-diary-api.mybluemix.net/api/Diaries').then(function(resp) {
      console.log('Success', resp);
      // For JSON responses, resp.data contains the result
-     $scope.infants = resp.data;
+     $scope.diaries = resp.data;
 
    }, function(err) {
      console.error('ERR', err);
      // err.status will contain the status code
-   })
+   });
 
 
   $scope.mainMenu = function() {
@@ -108,8 +108,34 @@ angular.module('tropicalDiary.controllers', ['ionic', 'tropicalDiary.controllers
 
   $scope.saveEntry = function() {
     console.log('Save Pressed');
-    console.log( $scope.currentEntry);
-    $state.go('app');
+    console.log( JSON.stringify($scope.currentEntry));
+
+    var entry = {
+      session: $scope.currentEntry.session,
+      name: $scope.currentEntry.activityName,
+      isPublished: "true",
+      userId: "string",
+      diaryId: $scope.currentEntry.diary.id,
+      imageUrl: "http://www.goodshepherds.net/home/180005716/180006159/images/art_fair_painting_children_bingfree.jpg",
+      description: $scope.currentEntry.description,
+      startTime: "2016-01-25",
+      endTime: "2016-01-25"
+}
+
+var url = 'http://tropical-diary-api.mybluemix.net/api/Activities?access_token=' + $rootScope.token;
+$http.post(url, entry).then(function(resp) {
+  console.log('Success', resp);
+  // For JSON responses, resp.data contains the result
+  $scope.diaries = resp.data;
+
+}, function(err) {
+  console.error('ERR', err);
+  // err.status will contain the status code
+});
+
+  console.log( "here is the entry - " + JSON.stringify(entry));
+
+    $state.go('newsFeed');
   };
 
 })
@@ -128,6 +154,7 @@ angular.module('tropicalDiary.controllers', ['ionic', 'tropicalDiary.controllers
 
   PersonService.GetFeed().then(function(items){
     $scope.items = items;
+    console.log("HERE ARE THE ITEMS " + JSON.stringify(items));
   });
 
 
@@ -148,6 +175,12 @@ angular.module('tropicalDiary.controllers', ['ionic', 'tropicalDiary.controllers
     .finally(function(){
       $scope.$broadcast('scroll.refreshComplete')
     });
+  };
+
+
+  $scope.mainMenu = function() {
+    console.log('Capture Pressed');
+    $state.go('capture');
   };
 
   var CheckNewItems = function(){
