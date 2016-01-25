@@ -2,25 +2,30 @@
   <ion-side-menus>
 
     <ion-side-menu side="left">
-      <ion-list>
-        <ion-item>
-	  <a menu-close href='#/newsFeed'>News Feed</a>
-	</ion-item>
-	<ion-item>Settings</ion-item>
-        <ion-item>
-	  <a menu-close href='/#/login'>Log Out</a>
-	</ion-item>
-      </ion-list>
-
+      <ion-header-bar class="bar-assertive">
+        <h1 class="title">admin@tropical.com</h1>
+      </ion-header-bar>
+      <ion-content>
+        <ion-list>
+          <ion-item>
+            <a menu-close href='#/newsFeed'>News Feed</a>
+	  </ion-item>
+	  <ion-item>Settings</ion-item>
+          <ion-item>
+	    <a menu-close href='/#/login'>Log Out</a>
+	  </ion-item>
+        </ion-list>
+      </ion-content>
 
     </ion-side-menu>
 
     <ion-side-menu-content>
 
-      <ion-header-bar class="bar-positive">
-        <div class="buttons">
+      <ion-header-bar align-title="center" class="bar-positive">
+       <div class="buttons">
           <button class="button icon button-clear ion-navicon-round" ng-click="toggleLeft()"></button>
-        </div>
+       </div>
+       <h1 class="title">Jimmy's Diary</h1> 
       </ion-header-bar>
 
       <ion-content>
