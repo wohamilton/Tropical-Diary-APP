@@ -32,7 +32,7 @@
 
         <div class="list card">
 
-      <div class="item" style="height: 10vh">
+      <div class="item" style="height: 5vh">
           <textarea ng-model="currentEntry.activityName" ></textarea>
       </div>
 
@@ -40,14 +40,14 @@
 
   <div class="list card">
 
-<div class="item" style="height: 48vh">
+<div class="item" style="height: 40vh">
     <textarea ng-model="currentEntry.description" ></textarea>
 </div>
 
 
   <div class="item tabs tabs-secondary tabs-icon-left">
-    <a class="tab-item" href="#">
-      <i class="icon ion-camera"></i>
+    <a class="tab-item">
+      <i class="icon ion-camera" ng-click="captureImage()"></i>
     </a>
     <a class="tab-item" href="#">
       <i class="icon ion-document"></i>

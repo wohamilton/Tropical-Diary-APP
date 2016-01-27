@@ -11,11 +11,9 @@ angular.module('tropicalDiary.controllers', ['ionic', 'tropicalDiary.controllers
       console.log("In Get Feed");
       console.log("token: " + $rootScope.token);
 
-<<<<<<< HEAD
-      return $http.get('http://tropical-diary-api.mybluemix.net/api/Activities?access_token='+$rootScope.token).then(function(response){
-=======
+
       return $http.get('https://tropical-diary-api.mybluemix.net/api/Activities?access_token='+$rootScope.token).then(function(response){
->>>>>>> b8defb20eb7b8230045f87f06a471750390e3373
+
         console.log(JSON.stringify(response));
         items = response.data;
 	return items;
@@ -46,7 +44,7 @@ angular.module('tropicalDiary.controllers', ['ionic', 'tropicalDiary.controllers
 
       console.log('username: ' + name + ', pass: ' + pw);
 
-      $http.post('http://tropical-diary-api.mybluemix.net/api/TropicalUsers/login','{"email":"'+name+'", "password":"'+pw+'"}').then(function(resp) {
+      $http.post('https://tropical-diary-api.mybluemix.net/api/TropicalUsers/login','{"email":"'+name+'", "password":"'+pw+'"}').then(function(resp) {
 
         //console.log('Success', JSON.stringify(resp));
         deferred.resolve(resp);
@@ -73,13 +71,15 @@ angular.module('tropicalDiary.controllers', ['ionic', 'tropicalDiary.controllers
 .controller('LoginCtrl', function($scope, $rootScope, LoginService, $ionicPopup, $state) {
   console.log("in login");
   $scope.data = {};
+  $scope.data.username = "admin@tropical.com";
+  $scope.data.password = "xxx";
 
   $scope.login = function() {
     LoginService.loginUser($scope.data.username, $scope.data.password).success(function(data) {
       //console.log('heres the data ' + data.data);
       $rootScope.token = data.data.id;
-      
-      
+
+
       $state.go('newsFeed');
     }).error(function(data) {
       var alertPopup = $ionicPopup.alert({
@@ -96,11 +96,9 @@ angular.module('tropicalDiary.controllers', ['ionic', 'tropicalDiary.controllers
 
    $scope.currentEntry = {};
 
-<<<<<<< HEAD
-   $http.get('http://tropical-diary-api.mybluemix.net/api/Diaries').then(function(resp) {
-=======
-   $http.get('https://tropical-diary-api.mybluemix.net/api/Infants').then(function(resp) {
->>>>>>> b8defb20eb7b8230045f87f06a471750390e3373
+
+   $http.get('https://tropical-diary-api.mybluemix.net/api/Diaries').then(function(resp) {
+
      console.log('Success', resp);
      // For JSON responses, resp.data contains the result
      $scope.diaries = resp.data;
@@ -113,9 +111,13 @@ angular.module('tropicalDiary.controllers', ['ionic', 'tropicalDiary.controllers
 
   $scope.mainMenu = function() {
     console.log('Cancel Pressed');
-    $state.go('app');
+    $state.go('captureImage');
   };
 
+  $scope.captureImage = function() {
+    console.log('captureImage Pressed');
+    $state.go('captureImage');
+  };
 
   $scope.saveEntry = function() {
     console.log('Save Pressed');
@@ -127,13 +129,13 @@ angular.module('tropicalDiary.controllers', ['ionic', 'tropicalDiary.controllers
       isPublished: "true",
       userId: "string",
       diaryId: $scope.currentEntry.diary.id,
-      imageUrl: "http://www.goodshepherds.net/home/180005716/180006159/images/art_fair_painting_children_bingfree.jpg",
+      imageUrl: "https://www.goodshepherds.net/home/180005716/180006159/images/art_fair_painting_children_bingfree.jpg",
       description: $scope.currentEntry.description,
       startTime: "2016-01-25",
       endTime: "2016-01-25"
 }
 
-var url = 'http://tropical-diary-api.mybluemix.net/api/Activities?access_token=' + $rootScope.token;
+var url = 'https://tropical-diary-api.mybluemix.net/api/Activities?access_token=' + $rootScope.token;
 $http.post(url, entry).then(function(resp) {
   console.log('Success', resp);
   // For JSON responses, resp.data contains the result
@@ -207,3 +209,83 @@ $http.post(url, entry).then(function(resp) {
 
 
 })
+.controller('ImageController', function($scope, $cordovaDevice, $cordovaFile, $ionicPlatform, $cordovaEmailComposer, $ionicActionSheet, ImageService, FileService) {
+
+  console.log('In Image COntroller');
+
+  $ionicPlatform.ready(function() {
+    $scope.images = FileService.images();
+    //$scope.$apply();
+  });
+
+  $scope.urlForImage = function(imageName) {
+    var trueOrigin = cordova.file.dataDirectory + imageName;
+    return trueOrigin;
+  }
+
+  $scope.addMedia = function() {
+    console.log('Pressed Add Media');
+    $scope.hideSheet = $ionicActionSheet.show({
+      buttons: [
+        { text: 'Take photo' },
+        { text: 'Photo from library' }
+      ],
+      titleText: 'Add images',
+      cancelText: 'Cancel',
+      buttonClicked: function(index) {
+        $scope.addImage(index);
+      }
+    });
+  }
+
+  $scope.addImage = function(type) {
+    console.log('Pressed Add Image');
+    $scope.hideSheet();
+    ImageService.handleMediaDialog(type).then(function() {
+      $scope.$apply();
+    });
+  }
+
+  $scope.sendEmail = function() {
+    if ($scope.images != null && $scope.images.length > 0) {
+      var mailImages = [];
+      var savedImages = $scope.images;
+      if ($cordovaDevice.getPlatform() == 'Android') {
+        // Currently only working for one image..
+        var imageUrl = $scope.urlForImage(savedImages[0]);
+        var name = imageUrl.substr(imageUrl.lastIndexOf('/') + 1);
+        var namePath = imageUrl.substr(0, imageUrl.lastIndexOf('/') + 1);
+        $cordovaFile.copyFile(namePath, name, cordova.file.externalRootDirectory, name)
+        .then(function(info) {
+          mailImages.push('' + cordova.file.externalRootDirectory + name);
+          $scope.openMailComposer(mailImages);
+        }, function(e) {
+          reject();
+        });
+      } else {
+        for (var i = 0; i < savedImages.length; i++) {
+          mailImages.push('' + $scope.urlForImage(savedImages[i]));
+        }
+        $scope.openMailComposer(mailImages);
+      }
+    }
+  }
+
+  $scope.openMailComposer = function(attachments) {
+    var bodyText = '<html><h2>My Images</h2></html>';
+    var email = {
+        to: 'some@email.com',
+        attachments: attachments,
+        subject: 'Devdactic Images',
+        body: bodyText,
+        isHtml: true
+      };
+
+    $cordovaEmailComposer.open(email).then(null, function() {
+      for (var i = 0; i < attachments.length; i++) {
+        var name = attachments[i].substr(attachments[i].lastIndexOf('/') + 1);
+        $cordovaFile.removeFile(cordova.file.externalRootDirectory, name);
+      }
+    });
+  }
+});
