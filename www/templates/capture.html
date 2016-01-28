@@ -30,30 +30,35 @@
           </label>
         </div>
 
+
+
+
         <div class="list card">
-
-      <div class="item" style="height: 5vh">
-          <textarea ng-model="currentEntry.activityName" ></textarea>
-      </div>
-
+          <div class="item" style="height: 8vh">
+              <textarea ng-model="currentEntry.activityName" placeholder="Activity Name"></textarea>
+          </div>
       </div>
 
   <div class="list card">
+      <div class="item" style="height: 20vh">
+          <textarea ng-model="currentEntry.description" placeholder="Activity Description"></textarea>
+      </div>
 
-<div class="item" style="height: 40vh">
-    <textarea ng-model="currentEntry.description" ></textarea>
-</div>
 
+        <div class="item tabs tabs-secondary tabs-icon-left">
+          <a class="tab-item">
+            <i class="icon ion-camera" ng-click="addMedia()"></i>
+          </a>
+          <a class="tab-item" href="#">
+            <i class="icon ion-document"></i>
+          </a>
+        </div>
 
-  <div class="item tabs tabs-secondary tabs-icon-left">
-    <a class="tab-item">
-      <i class="icon ion-camera" ng-click="captureImage()"></i>
-    </a>
-    <a class="tab-item" href="#">
-      <i class="icon ion-document"></i>
-    </a>
-  </div>
-
+        <a class="item item-list-detail" style="height:20vh; min-height: 20vh; overflow: scroll; white-space: nowrap;">
+          <ion-scroll direction="x" style="height:20vh; min-height: 20vh; overflow: scroll; white-space: nowrap;">
+            <img ng-repeat="image in images" ng-src="{{urlForImage(image)}}" style="height:20vh; padding: 5px 5px 5px 5px;"/>
+          </ion-scroll>
+        </a>
 </div>
 
 <div class="button-bar" style="position: fixed; bottom: 0em;">
